@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16.x"
+          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
         env: # Or as an environment variable
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
