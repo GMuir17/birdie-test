@@ -14,18 +14,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: "Create env file"
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
       - name: Backend tests
         uses: actions/setup-node@v3
         with:
           node-version: "16.x"
-          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
-        env: # Or as an environment variable
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
       - run: npm install
       - run: npm ci
       - run: npm run build --if-present
