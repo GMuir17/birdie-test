@@ -7,7 +7,7 @@ dotenv.config();
 describe("Get /events", () => {
   console.log("banana in the test 1", process.env.DB_PORT);
   it("should return at least one object with caregiver_id", async () => {
-    console.log("banana in the test 2", process.env.super_secret);
+    console.log("banana in the test 2", process.env.SECRET_TOKEN);
 
     await request(app)
       .get("/hello")

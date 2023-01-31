@@ -25,9 +25,7 @@ jobs:
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_NAME: ${{ secrets.DB_NAME }}
           SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
-          if: env.SECRET_TOKEN == 'banana'
-          run: echo "What is the token???"
-      # - run: npm install
-      # - run: npm ci
-      # - run: npm run build --if-present
-      # - run: npm test --detectOpenHandles
+      - run: npm install
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test --detectOpenHandles
