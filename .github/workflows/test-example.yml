@@ -1,9 +1,7 @@
-name: Backend Node.js CI
+name: Backend Test Run
 
 on:
   push:
-    branches: [main]
-  pull_request:
     branches: [main]
 
 jobs:
