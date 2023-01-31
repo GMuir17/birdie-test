@@ -1,11 +1,15 @@
 import { RequestHandler } from "express";
 import * as mysql from "mysql2/promise";
 import * as dotenv from "dotenv";
+import * as cors from "cors";
+
 dotenv.config();
 
 import app from "./application";
 
 const port = process.env.PORT || 8000;
+
+app.use(cors());
 
 app.get("/events", (async (_req, res) => {
   const connection = await mysql.createConnection({
