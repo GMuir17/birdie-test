@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: test
+    environment: Test
     defaults:
       run:
         working-directory: ./backend
