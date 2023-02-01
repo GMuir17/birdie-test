@@ -1,0 +1,27 @@
+name: Frontend Test Run
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Test
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - uses: actions/checkout@v3
+      # - name: "Create env file"
+      #   run: |
+      #     echo "${{ secrets.ENV_FILE }}" > .env
+      - name: Frontend tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+      - run: npm install
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test --detectOpenHandles
