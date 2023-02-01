@@ -184,7 +184,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/birdie-test-serverless-express/dev/1675281989710-2023-02-01T20:06:29.710Z/birdie-test-serverless-express.zip"
+                "S3Key": "serverless/birdie-test-serverless-express/dev/1675292725244-2023-02-01T23:05:25.244Z/birdie-test-serverless-express.zip"
               },
               "Handler": "src/index.handler",
               "Runtime": "nodejs12.x",
@@ -211,14 +211,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersion9Oa01MV7aFospUqawXk9JaMgMTvA8EqfMVvCPewQ": {
+          "ApiLambdaVersionfjjrURLARnNJPUFPu2RUWlFqI6zvlVDezUXPwOalHA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "0y19BxogfjOgjQlRR5BEdt/gjYJuSwPVbsqUqaFWdpM="
+              "CodeSha256": "zP0p/QLfje6D52Mc85bWFNwVh2xiMru3zR9H5WjboxE="
             }
           },
           "ApiGatewayRestApi": {
@@ -294,7 +294,7 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1675281969905": {
+          "ApiGatewayDeployment1675292704571": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -356,7 +356,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersion9Oa01MV7aFospUqawXk9JaMgMTvA8EqfMVvCPewQ"
+              "Ref": "ApiLambdaVersionfjjrURLARnNJPUFPu2RUWlFqI6zvlVDezUXPwOalHA"
             },
             "Export": {
               "Name": "sls-birdie-test-serverless-express-dev-ApiLambdaFunctionQualifiedArn"
@@ -504,7 +504,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersion9Oa01MV7aFospUqawXk9JaMgMTvA8EqfMVvCPewQ"
+        "versionLogicalId": "ApiLambdaVersionfjjrURLARnNJPUFPu2RUWlFqI6zvlVDezUXPwOalHA"
       }
     },
     "configValidationMode": "warn",
@@ -526,7 +526,7 @@
     "artifact": "/Users/garymuir/Dev/birdie-test/backend/.build/.serverless/birdie-test-serverless-express.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/birdie-test-serverless-express/dev/1675281989710-2023-02-01T20:06:29.710Z",
+    "artifactDirectoryName": "serverless/birdie-test-serverless-express/dev/1675292725244-2023-02-01T23:05:25.244Z",
     "artifact": "birdie-test-serverless-express.zip"
   }
 }

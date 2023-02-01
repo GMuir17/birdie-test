@@ -10,7 +10,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import EventCard from "./EventCard";
 
-const formatDate = (date: Dayjs, daysToAdd?: number) => {
+const formatDate = (date: Dayjs | string | null, daysToAdd?: number) => {
   const dateFormat = "YYYY-MM-DDTHH:mm:ssZ[Z]";
   if (daysToAdd) return dayjs(date).add(daysToAdd, "day").format(dateFormat);
   return dayjs(date).format(dateFormat);
@@ -22,12 +22,17 @@ const BasicList = () => {
   const [startDate, setStartDate] = useState<string>(formatDate(firstDay));
   const [endDate, setEndDate] = useState<string>(formatDate(firstDay, 1));
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false);
-
+  console.log("banana here", process.env.NODE_ENV);
   const { data, isLoading } = useQuery(
     ["events", startDate, endDate],
     async () => {
+      const url =
+        process.env.NODE_ENV === "development"
+          ? process.env.REACT_APP_LOCAL_API_URL
+          : process.env.REACT_APP_PRODUCTION_API_URL;
+
       const res = await axios.get(
-        `http://localhost:8000/dev/events?startDate=${startDate}&endDate=${endDate}`
+        `${url}events?startDate=${startDate}&endDate=${endDate}`
       );
       return res.data;
     }
