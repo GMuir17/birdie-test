@@ -23,6 +23,7 @@ const BasicList = () => {
   const [endDate, setEndDate] = useState<string>(formatDate(firstDay, 1));
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false);
   console.log("banana here", process.env.NODE_ENV);
+  console.log("banana here", process.env.REACT_APP_PRODUCTION_API_URL);
   const { data, isLoading } = useQuery(
     ["events", startDate, endDate],
     async () => {
