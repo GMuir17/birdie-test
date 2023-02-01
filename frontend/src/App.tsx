@@ -1,7 +1,6 @@
-import { Container, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import BasicList from "./components/BasicList";
 import Events from "./components/Events";
 
 export default function App() {
