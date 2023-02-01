@@ -1,15 +1,13 @@
 import * as dotenv from "dotenv";
-import * as cors from "cors";
+import * as serverlessExpress from "aws-serverless-express";
+import { APIGatewayProxyHandler } from "aws-lambda";
 
 dotenv.config();
 
 import app from "./application";
 
-const port = process.env.PORT || 8000;
+const server = serverlessExpress.createServer(app);
 
-app.use(cors());
-
-app.listen(port, () => {
-  // tslint:disable-next-line:no-console
-  console.log(`Server started at http://localhost:${port}`);
-});
+export const handler: APIGatewayProxyHandler = (event, context) => {
+  serverlessExpress.proxy(server, event, context);
+};
