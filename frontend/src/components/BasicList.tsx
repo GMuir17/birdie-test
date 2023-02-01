@@ -6,22 +6,22 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
-// import { useQuery } from "react-query";
-// import axios from "axios";
+import { useQuery } from "react-query";
+import axios from "axios";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const BasicList = () => {
   const [age, setAge] = useState("10");
 
-  // const { data, isLoading } = useQuery(
-  //   `basic-test`,
-  //   async () => {
-  //     const res = await axios.get(`http://localhost:8000/events`);
-  //     console.log("banana data", res.data);
-  //     return res.data;
-  //   },
-  //   { staleTime: 60000 }
-  // );
+  const { data, isLoading } = useQuery(
+    `basic-test`,
+    async () => {
+      const res = await axios.get(`http://localhost:8000/dev/events`);
+      console.log("banana data", res.data);
+      return res.data;
+    },
+    { staleTime: 60000 }
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string);
@@ -49,9 +49,9 @@ const BasicList = () => {
           <MenuItem value={30}>Thirty</MenuItem>
         </Select>
       </FormControl>
-      {/* {isLoading && <div>Loading...</div>}
+      {isLoading && <div>Loading...</div>}
       {data &&
-        data.events.map((event: any) => <div key={event.id}>{event.id}</div>)} */}
+        data.events.map((event: any) => <div key={event.id}>{event.id}</div>)}
     </Box>
   );
 };
