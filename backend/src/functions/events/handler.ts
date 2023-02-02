@@ -7,6 +7,7 @@ import {
 import getConnection from "../../libs/db";
 
 export const main: APIGatewayProxyHandler = async (event) => {
+  console.log("banana in lambda");
   const { startDate, endDate } = event.queryStringParameters;
 
   try {
@@ -26,6 +27,10 @@ export const main: APIGatewayProxyHandler = async (event) => {
       ["df50cac5-293c-490d-a06c-ee26796f850d", startDate, endDate]
     );
     await connection.end();
+    const testResponse = corsSuccessResponse({
+      statusCode: 200,
+    });
+    console.log("banana testResponse", testResponse);
     return corsSuccessResponse({
       statusCode: 200,
       body: { events: rows },

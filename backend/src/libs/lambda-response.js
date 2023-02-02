@@ -14,19 +14,14 @@ function lambdaResponse({
 
   if (allowCORS) {
     response.headers = {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "http://localhost:3000",
       "content-type": "application/json; charset=utf-8",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+      "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
     };
   }
 
   return response;
-}
-
-export function errorResponse(json, statusCode = 500) {
-  return lambdaResponse({
-    json,
-    statusCode: statusCode,
-  });
 }
 
 export function corsErrorResponse(json, statusCode = 500) {
@@ -34,13 +29,6 @@ export function corsErrorResponse(json, statusCode = 500) {
     json,
     statusCode: statusCode,
     allowCORS: true,
-  });
-}
-
-export function successResponse(json, statusCode = 200) {
-  return lambdaResponse({
-    json,
-    statusCode: statusCode,
   });
 }
 

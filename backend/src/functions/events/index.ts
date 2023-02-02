@@ -9,6 +9,7 @@ export default {
         method: "get",
         path: "events",
         private: true,
+        cors: true,
       },
     },
   ],

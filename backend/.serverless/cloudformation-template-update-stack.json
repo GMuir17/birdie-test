@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/birdie-backend/production/1675351572705-2023-02-02T15:26:12.705Z/events.zip"
+          "S3Key": "serverless/birdie-backend/production/1675354329067-2023-02-02T16:12:09.067Z/events.zip"
         },
         "Handler": "src/functions/events/handler.main",
         "Runtime": "nodejs14.x",
@@ -188,14 +188,14 @@
         "EventsLogGroup"
       ]
     },
-    "EventsLambdaVersionvEctuJC7zQIrDjKvoM9cpU1v4e6qV8SHp15QfUlZCE": {
+    "EventsLambdaVersionew6D8MV6JJ6votpnkAXr4NTiiYZAJIEZ9Zoxuvoqng": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "EventsLambdaFunction"
         },
-        "CodeSha256": "B93eHfqUxwIk1mR5YfMCjbB2/ePB8m0lCsfR4o8Tyvw="
+        "CodeSha256": "ibpPF4TVcQivqow9zgPNiWCr83PxdnuMHq00bM7W1Qk="
       }
     },
     "EventsLambdaEvConf": {
@@ -232,6 +232,51 @@
           ]
         },
         "PathPart": "events",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodEventsOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceEvents"
+        },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -283,7 +328,7 @@
         "EventsLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1675351572083": {
+    "ApiGatewayDeployment1675354328409": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -292,6 +337,7 @@
         "StageName": "production"
       },
       "DependsOn": [
+        "ApiGatewayMethodEventsOptions",
         "ApiGatewayMethodEventsGet"
       ]
     },
@@ -309,11 +355,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1675351572083"
+      "DependsOn": "ApiGatewayDeployment1675354328409"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1675351572083",
+      "DependsOn": "ApiGatewayDeployment1675354328409",
       "Properties": {
         "ApiStages": [
           {
@@ -389,7 +435,7 @@
     "EventsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "EventsLambdaVersionvEctuJC7zQIrDjKvoM9cpU1v4e6qV8SHp15QfUlZCE"
+        "Ref": "EventsLambdaVersionew6D8MV6JJ6votpnkAXr4NTiiYZAJIEZ9Zoxuvoqng"
       },
       "Export": {
         "Name": "sls-birdie-backend-production-EventsLambdaFunctionQualifiedArn"

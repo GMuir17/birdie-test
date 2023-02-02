@@ -42,9 +42,10 @@ const BasicList = () => {
         config
         // `${url}events?startDate=${startDate}&endDate=${endDate}`
       );
-      return res.data;
+      return res.data.body;
     }
   );
+  console.log("banana data", { data });
 
   const handleChange = (newValue: Dayjs | null) => {
     setDate(newValue);
