@@ -33,7 +33,7 @@ interface EventCardProps {
 }
 
 const EventCard: FC<EventCardProps> = ({ event }) => {
-  console.log("banana event", { event });
+  // console.log("banana event", { event });
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {

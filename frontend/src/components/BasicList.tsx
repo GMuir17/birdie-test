@@ -17,7 +17,6 @@ const BasicList = () => {
     `basic-test`,
     async () => {
       const res = await axios.get(`http://localhost:8000/dev/events`);
-      console.log("banana data", res.data);
       return res.data;
     },
     { staleTime: 60000 }

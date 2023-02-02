@@ -1,82 +1,58 @@
-import { useState } from "react";
-import { Box, AppBar, Toolbar, Container, TextField } from "@mui/material";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
-import dayjs, { Dayjs } from "dayjs";
-
+import { useState, useEffect } from "react";
+import { Box, Container, CircularProgress } from "@mui/material";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+
 import EventCard from "./EventCard";
+import FilterBar from "./FilterBar";
+import { formatDate, defaultDay } from "./utils";
 
-const formatDate = (date: Dayjs | string | null, daysToAdd?: number) => {
-  const dateFormat = "YYYY-MM-DDTHH:mm:ssZ[Z]";
-  if (daysToAdd) return dayjs(date).add(daysToAdd, "day").format(dateFormat);
-  return dayjs(date).format(dateFormat);
-};
+const apiKey =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_LOCAL_EVENT_API_KEY
+    : process.env.REACT_APP_EVENT_API_KEY;
 
-const BasicList = () => {
-  const firstDay = "2019-04-23T00:00:00.000Z";
-  const [date, setDate] = useState<Dayjs | null>(dayjs(firstDay));
-  const [startDate, setStartDate] = useState<string>(formatDate(firstDay));
-  const [endDate, setEndDate] = useState<string>(formatDate(firstDay, 1));
-  const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false);
-  console.log("banana here", process.env.NODE_ENV);
-  console.log("banana here", process.env.REACT_APP_PRODUCTION_API_URL);
-  const { data, isLoading } = useQuery(
-    ["events", startDate, endDate],
-    async () => {
-      const apiKey =
-        process.env.NODE_ENV === "development"
-          ? process.env.REACT_APP_LOCAL_EVENT_API_KEY
-          : process.env.REACT_APP_EVENT_API_KEY;
-      const config = {
-        headers: { "X-API-Key": apiKey },
-      };
-      const url =
-        process.env.NODE_ENV === "development"
-          ? process.env.REACT_APP_LOCAL_API_URL
-          : process.env.REACT_APP_PRODUCTION_API_URL;
+const url =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_LOCAL_API_URL
+    : process.env.REACT_APP_PRODUCTION_API_URL;
 
-      const res = await axios.get(
-        `${url}events?startDate=${startDate}&endDate=${endDate}`,
-        config
-      );
-      return res.data.body;
-    }
-  );
-  console.log("banana data", { data });
+const Events = () => {
+  const [searchParams] = useSearchParams();
 
-  const handleChange = (newValue: Dayjs | null) => {
-    setDate(newValue);
-    setStartDate(formatDate(newValue));
-    setEndDate(formatDate(newValue, 1));
-    setDatePickerOpen(false);
-  };
+  const [startDate, setStartDate] = useState<string>(formatDate(defaultDay));
+
+  const { data, isLoading } = useQuery(["events", startDate], async () => {
+    const completeUrl = `${url}events?startDate=${startDate}`;
+    const config = {
+      headers: { "X-API-Key": apiKey },
+    };
+
+    const res = await axios.get(completeUrl, config);
+    return res.data.body;
+  });
+
+  useEffect(() => {
+    if (!searchParams) return;
+    const paramStartDate = searchParams.get("startDate");
+    if (paramStartDate) setStartDate(paramStartDate);
+  }, [searchParams]);
 
   return (
     <Box>
-      <AppBar
-        sx={{ position: "sticky", height: "15vh", backgroundColor: "white" }}
-      >
-        <Toolbar sx={{ height: "100%" }}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <MobileDatePicker
-              label="Visit Date"
-              inputFormat="ddd DD MMMM YYYY"
-              value={date}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params} />}
-              open={datePickerOpen}
-              onOpen={() => setDatePickerOpen(true)}
-              minDate={dayjs(firstDay)}
-              maxDate={dayjs(firstDay).add(1, "week")}
-            />
-          </LocalizationProvider>
-        </Toolbar>
-      </AppBar>
-      {isLoading && <div>Loading...</div>}
+      <FilterBar />
+      {isLoading && (
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            my: 2,
+          }}
+        >
+          <CircularProgress />
+        </Container>
+      )}
       <Container maxWidth="sm">
         {data &&
           data.events.map((event: any) => (
@@ -89,4 +65,4 @@ const BasicList = () => {
   );
 };
 
-export default BasicList;
+export default Events;

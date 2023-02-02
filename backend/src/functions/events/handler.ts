@@ -1,4 +1,5 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
+import dayjs, { Dayjs } from "dayjs";
 
 import {
   corsSuccessResponse,
@@ -8,7 +9,9 @@ import getConnection from "../../libs/db";
 
 export const main: APIGatewayProxyHandler = async (event) => {
   console.log("banana in lambda");
-  const { startDate, endDate } = event.queryStringParameters;
+  const { startDate } = event.queryStringParameters;
+
+  const endDate = dayjs(startDate).add(1, "day").format("YYYY-MM-DD");
 
   try {
     const connection = await getConnection();
