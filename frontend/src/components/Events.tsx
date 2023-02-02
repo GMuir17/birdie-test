@@ -33,7 +33,7 @@ const BasicList = () => {
       //     : process.env.REACT_APP_PRODUCTION_API_URL;
 
       const testUrl =
-        "https://psje23s9l8.execute-api.eu-west-2.amazonaws.com/dev/events?startDate=2019-04-27T00:00:0.000Z&endDate=2019-04-28T00:00:00.000Z";
+        "https://y6t4g09j6h.execute-api.eu-west-2.amazonaws.com/production/events?startDate=2019-04-27T00:00:0.000Z&endDate=2019-04-28T00:00:00.000Z";
       const res = await axios.get(
         testUrl
         // `${url}events?startDate=${startDate}&endDate=${endDate}`
