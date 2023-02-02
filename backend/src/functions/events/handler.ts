@@ -30,13 +30,20 @@ export const main: APIGatewayProxyHandler = async (event) => {
       ["df50cac5-293c-490d-a06c-ee26796f850d", startDate, endDate]
     );
     await connection.end();
-    const testResponse = corsSuccessResponse({
-      statusCode: 200,
-    });
-    console.log("banana testResponse", testResponse);
+
+    const careGivers = rows.map((row: any) => row.caregiver_first_name);
+    const uniqueCareGivers = [...new Set(careGivers)];
+
+    const eventTypes = rows.map((row: any) => row.event_type);
+    const uniqueEventTypes = [...new Set(eventTypes)];
+
     return corsSuccessResponse({
       statusCode: 200,
-      body: { events: rows },
+      body: {
+        events: rows,
+        careGivers: uniqueCareGivers,
+        eventTypes: uniqueEventTypes,
+      },
     });
   } catch (e) {
     console.log("error", e);
