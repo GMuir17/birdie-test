@@ -27,13 +27,16 @@ const BasicList = () => {
   const { data, isLoading } = useQuery(
     ["events", startDate, endDate],
     async () => {
-      const url =
-        process.env.NODE_ENV === "development"
-          ? process.env.REACT_APP_LOCAL_API_URL
-          : process.env.REACT_APP_PRODUCTION_API_URL;
+      // const url =
+      //   process.env.NODE_ENV === "development"
+      //     ? process.env.REACT_APP_LOCAL_API_URL
+      //     : process.env.REACT_APP_PRODUCTION_API_URL;
 
+      const testUrl =
+        "https://psje23s9l8.execute-api.eu-west-2.amazonaws.com/dev/events?startDate=2019-04-27T00:00:0.000Z&endDate=2019-04-28T00:00:00.000Z";
       const res = await axios.get(
-        `${url}events?startDate=${startDate}&endDate=${endDate}`
+        testUrl
+        // `${url}events?startDate=${startDate}&endDate=${endDate}`
       );
       return res.data;
     }
