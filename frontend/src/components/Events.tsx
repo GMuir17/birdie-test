@@ -23,7 +23,7 @@ const config = {
 };
 
 const Events = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [startDate, setStartDate] = useState<string>(formatDate(defaultDay));
   const [careGivers, setCareGivers] = useState<string>("");
@@ -35,7 +35,6 @@ const Events = () => {
       if (careGivers) {
         completeUrl += `&careGivers=${careGivers}`;
       }
-
       const res = await axios.get(completeUrl, config);
       return res.data.body;
     }
@@ -52,19 +51,24 @@ const Events = () => {
   );
 
   useEffect(() => {
-    if (!searchParams) return;
     const paramStartDate = searchParams.get("startDate");
-    if (paramStartDate) setStartDate(paramStartDate);
+    if (paramStartDate) {
+      setStartDate(paramStartDate);
+    } else {
+      setSearchParams((oldParams) => {
+        oldParams.set("startDate", startDate);
+        return oldParams;
+      });
+    }
     const paramCareGivers = searchParams.get("careGivers");
-    if (paramCareGivers) setCareGivers(paramCareGivers);
-  }, [searchParams]);
+    if (paramCareGivers) {
+      setCareGivers(paramCareGivers);
+    }
+  }, [searchParams, startDate, setSearchParams]);
 
   return (
     <Box>
-      <FilterBar
-        eventTypes={data?.eventTypes}
-        careGivers={careGiverData?.careGivers}
-      />
+      <FilterBar careGivers={careGiverData?.careGivers} />
       {isLoading && (
         <Container
           sx={{

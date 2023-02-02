@@ -30,20 +30,19 @@ const Transition = forwardRef(function Transition(
 });
 
 interface FilterBarProps {
-  eventTypes: string[];
   careGivers: CareGiver[];
   open: boolean;
   onClose: () => void;
 }
 
-const FilterModal: FC<FilterBarProps> = ({
-  eventTypes,
-  careGivers,
-  open,
-  onClose,
-}) => {
+const FilterModal: FC<FilterBarProps> = ({ careGivers, open, onClose }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCareGivers, setSelectedCareGivers] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!careGivers) return;
+    setSelectedCareGivers(careGivers.map((careGiver) => careGiver.id));
+  }, [careGivers]);
 
   useEffect(() => {
     if (!searchParams) return;
@@ -73,9 +72,12 @@ const FilterModal: FC<FilterBarProps> = ({
     onClose();
   };
 
-  const clearAll = () => {
+  const selectAll = () => {
     setSearchParams((oldParams) => {
-      oldParams.delete("careGivers");
+      oldParams.set(
+        "careGivers",
+        careGivers.map((careGiver) => careGiver.id).join(",")
+      );
       return oldParams;
     });
     onClose();
@@ -134,8 +136,8 @@ const FilterModal: FC<FilterBarProps> = ({
         </Box>
       </DialogContent>
       <DialogActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button size="large" onClick={clearAll}>
-          Clear all
+        <Button size="large" onClick={selectAll}>
+          Select all
         </Button>
         <Button size="large" onClick={applyFilters}>
           Apply filters

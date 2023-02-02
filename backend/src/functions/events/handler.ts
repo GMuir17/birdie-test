@@ -43,6 +43,7 @@ export const main: APIGatewayProxyHandler = async (event) => {
         body: { events: rows },
       });
     } else {
+      console.log("banana no careGivers");
       const [rows] = await connection.execute(
         `select 
             events.*, 
