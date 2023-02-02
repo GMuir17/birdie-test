@@ -189,7 +189,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/birdie-backend/production/1675356192856-2023-02-02T16:43:12.856Z/events.zip"
+                "S3Key": "serverless/birdie-backend/production/1675374955848-2023-02-02T21:55:55.848Z/events.zip"
               },
               "Handler": "src/functions/events/handler.main",
               "Runtime": "nodejs14.x",
@@ -216,14 +216,14 @@
               "EventsLogGroup"
             ]
           },
-          "EventsLambdaVersionnMAt4qkmkyhOLFje07VAenaKkjqu4D0RU0pZ5u7JI": {
+          "EventsLambdaVersion2nIr5LTLNtJx7m4z9OAxPt3Y6hrVF6ad7x1dQvBjR9s": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsLambdaFunction"
               },
-              "CodeSha256": "MdyGqRP0WB0hE0a004Hp4AxGU/nkJCoWFp/ubidxxpI="
+              "CodeSha256": "REZ+2ZmIRAxTicdcU1jkZhuvn1xF3LDufHD3EpAif70="
             }
           },
           "EventsLambdaEvConf": {
@@ -356,7 +356,7 @@
               "EventsLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1675356192206": {
+          "ApiGatewayDeployment1675374955355": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -383,11 +383,11 @@
                 }
               ]
             },
-            "DependsOn": "ApiGatewayDeployment1675356192206"
+            "DependsOn": "ApiGatewayDeployment1675374955355"
           },
           "ApiGatewayUsagePlan": {
             "Type": "AWS::ApiGateway::UsagePlan",
-            "DependsOn": "ApiGatewayDeployment1675356192206",
+            "DependsOn": "ApiGatewayDeployment1675374955355",
             "Properties": {
               "ApiStages": [
                 {
@@ -463,7 +463,7 @@
           "EventsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsLambdaVersionnMAt4qkmkyhOLFje07VAenaKkjqu4D0RU0pZ5u7JI"
+              "Ref": "EventsLambdaVersion2nIr5LTLNtJx7m4z9OAxPt3Y6hrVF6ad7x1dQvBjR9s"
             },
             "Export": {
               "Name": "sls-birdie-backend-production-EventsLambdaFunctionQualifiedArn"
@@ -638,7 +638,7 @@
         "timeout": 180,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "EventsLambdaVersionnMAt4qkmkyhOLFje07VAenaKkjqu4D0RU0pZ5u7JI"
+        "versionLogicalId": "EventsLambdaVersion2nIr5LTLNtJx7m4z9OAxPt3Y6hrVF6ad7x1dQvBjR9s"
       }
     },
     "configValidationMode": "warn",
@@ -668,7 +668,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/birdie-backend/production/1675356192856-2023-02-02T16:43:12.856Z",
+    "artifactDirectoryName": "serverless/birdie-backend/production/1675374955848-2023-02-02T21:55:55.848Z",
     "artifact": ""
   }
 }

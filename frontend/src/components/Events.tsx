@@ -18,30 +18,53 @@ const url =
     ? process.env.REACT_APP_LOCAL_API_URL
     : process.env.REACT_APP_PRODUCTION_API_URL;
 
+const config = {
+  headers: { "X-API-Key": apiKey },
+};
+
 const Events = () => {
   const [searchParams] = useSearchParams();
 
   const [startDate, setStartDate] = useState<string>(formatDate(defaultDay));
+  const [careGivers, setCareGivers] = useState<string>("");
 
-  const { data, isLoading } = useQuery(["events", startDate], async () => {
-    const completeUrl = `${url}events?startDate=${startDate}`;
-    const config = {
-      headers: { "X-API-Key": apiKey },
-    };
+  const { data, isLoading } = useQuery(
+    ["events", startDate, careGivers],
+    async () => {
+      let completeUrl = `${url}events?startDate=${startDate}`;
+      if (careGivers) {
+        completeUrl += `&careGivers=${careGivers}`;
+      }
 
-    const res = await axios.get(completeUrl, config);
-    return res.data.body;
-  });
+      const res = await axios.get(completeUrl, config);
+      return res.data.body;
+    }
+  );
+
+  const { data: careGiverData } = useQuery(
+    ["careGivers", startDate],
+    async () => {
+      let completeUrl = `${url}careGivers?startDate=${startDate}`;
+
+      const res = await axios.get(completeUrl, config);
+      return res.data.body;
+    }
+  );
 
   useEffect(() => {
     if (!searchParams) return;
     const paramStartDate = searchParams.get("startDate");
     if (paramStartDate) setStartDate(paramStartDate);
+    const paramCareGivers = searchParams.get("careGivers");
+    if (paramCareGivers) setCareGivers(paramCareGivers);
   }, [searchParams]);
 
   return (
     <Box>
-      <FilterBar />
+      <FilterBar
+        eventTypes={data?.eventTypes}
+        careGivers={careGiverData?.careGivers}
+      />
       {isLoading && (
         <Container
           sx={{

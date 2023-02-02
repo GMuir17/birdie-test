@@ -1,46 +1,22 @@
-import { useState, useEffect, forwardRef, ReactElement, Ref } from "react";
-import {
-  AppBar,
-  Toolbar,
-  TextField,
-  IconButton,
-  Button,
-  Dialog,
-  DialogContentText,
-  DialogActions,
-  DialogContent,
-  Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Container,
-  CircularProgress,
-  Typography,
-  Checkbox,
-  Slide,
-} from "@mui/material";
+import { FC, useState, useEffect } from "react";
+import { AppBar, Toolbar, TextField, Button } from "@mui/material";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import TuneIcon from "@mui/icons-material/Tune";
-import CloseIcon from "@mui/icons-material/Close";
-import { TransitionProps } from "@mui/material/transitions";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { useSearchParams } from "react-router-dom";
 
 import { formatDate, defaultDay } from "./utils";
+import FilterModal from "./FilterModal";
+import { CareGiver } from "./../types";
 
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: ReactElement<any, any>;
-  },
-  ref: Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+interface FilterBarProps {
+  eventTypes: string[];
+  careGivers: CareGiver[];
+}
 
-const FilterBar = () => {
+const FilterBar: FC<FilterBarProps> = ({ eventTypes, careGivers }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [date, setDate] = useState<Dayjs | null>(dayjs(defaultDay));
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false);
@@ -92,52 +68,12 @@ const FilterBar = () => {
           Filter
         </Button>
       </Toolbar>
-      <Dialog
+      <FilterModal
+        eventTypes={eventTypes}
+        careGivers={careGivers}
         open={filterModalOpen}
-        TransitionComponent={Transition}
-        keepMounted
         onClose={() => setFilterModalOpen(false)}
-      >
-        <AppBar sx={{ position: "sticky" }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={() => setFilterModalOpen(false)}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Filters
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <DialogContent>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              px: 3,
-              py: 2.5,
-            }}
-          >
-            <DialogContentText sx={{ fontSize: "20px" }}>
-              Care giver
-            </DialogContentText>
-            <FormControl></FormControl>
-          </Box>
-        </DialogContent>
-        <DialogActions
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Button size="large" onClick={() => console.log("handleClear")}>
-            Clear all
-          </Button>
-          <Button size="large" onClick={() => console.log("handleFilter")}>
-            Show events
-          </Button>
-        </DialogActions>
-      </Dialog>
+      />
     </AppBar>
   );
 };
