@@ -27,20 +27,21 @@ const BasicList = () => {
   const { data, isLoading } = useQuery(
     ["events", startDate, endDate],
     async () => {
+      const apiKey =
+        process.env.NODE_ENV === "development"
+          ? process.env.REACT_APP_LOCAL_EVENT_API_KEY
+          : process.env.REACT_APP_EVENT_API_KEY;
       const config = {
-        headers: { "X-API-Key": process.env.REACT_APP_EVENT_API_KEY },
+        headers: { "X-API-Key": apiKey },
       };
-      // const url =
-      //   process.env.NODE_ENV === "development"
-      //     ? process.env.REACT_APP_LOCAL_API_URL
-      //     : process.env.REACT_APP_PRODUCTION_API_URL;
+      const url =
+        process.env.NODE_ENV === "development"
+          ? process.env.REACT_APP_LOCAL_API_URL
+          : process.env.REACT_APP_PRODUCTION_API_URL;
 
-      const testUrl =
-        "https://y6t4g09j6h.execute-api.eu-west-2.amazonaws.com/production/events?startDate=2019-04-27T00:00:0.000Z&endDate=2019-04-28T00:00:00.000Z";
       const res = await axios.get(
-        testUrl,
+        `${url}events?startDate=${startDate}&endDate=${endDate}`,
         config
-        // `${url}events?startDate=${startDate}&endDate=${endDate}`
       );
       return res.data.body;
     }

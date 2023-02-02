@@ -14,10 +14,8 @@ function lambdaResponse({
 
   if (allowCORS) {
     response.headers = {
-      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Origin": "*",
       "content-type": "application/json; charset=utf-8",
-      "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-      "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
     };
   }
 

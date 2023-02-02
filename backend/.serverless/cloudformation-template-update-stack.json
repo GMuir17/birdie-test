@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/birdie-backend/production/1675354329067-2023-02-02T16:12:09.067Z/events.zip"
+          "S3Key": "serverless/birdie-backend/production/1675356192856-2023-02-02T16:43:12.856Z/events.zip"
         },
         "Handler": "src/functions/events/handler.main",
         "Runtime": "nodejs14.x",
@@ -188,14 +188,14 @@
         "EventsLogGroup"
       ]
     },
-    "EventsLambdaVersionew6D8MV6JJ6votpnkAXr4NTiiYZAJIEZ9Zoxuvoqng": {
+    "EventsLambdaVersionnMAt4qkmkyhOLFje07VAenaKkjqu4D0RU0pZ5u7JI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "EventsLambdaFunction"
         },
-        "CodeSha256": "ibpPF4TVcQivqow9zgPNiWCr83PxdnuMHq00bM7W1Qk="
+        "CodeSha256": "MdyGqRP0WB0hE0a004Hp4AxGU/nkJCoWFp/ubidxxpI="
       }
     },
     "EventsLambdaEvConf": {
@@ -328,7 +328,7 @@
         "EventsLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1675354328409": {
+    "ApiGatewayDeployment1675356192206": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -355,11 +355,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1675354328409"
+      "DependsOn": "ApiGatewayDeployment1675356192206"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1675354328409",
+      "DependsOn": "ApiGatewayDeployment1675356192206",
       "Properties": {
         "ApiStages": [
           {
@@ -435,7 +435,7 @@
     "EventsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "EventsLambdaVersionew6D8MV6JJ6votpnkAXr4NTiiYZAJIEZ9Zoxuvoqng"
+        "Ref": "EventsLambdaVersionnMAt4qkmkyhOLFje07VAenaKkjqu4D0RU0pZ5u7JI"
       },
       "Export": {
         "Name": "sls-birdie-backend-production-EventsLambdaFunctionQualifiedArn"
