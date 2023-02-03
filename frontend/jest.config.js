@@ -1,13 +1,14 @@
 module.exports = {
+  preset: "ts-jest",
   // The root of your source code, typically /src
   // `<rootDir>` is a token Jest substitutes
   roots: ["<rootDir>/src"],
 
   // Jest transformations -- this adds support for TypeScript
   // using ts-jest
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-  },
+  transform: { "^.+\\.ts?$": "ts-jest" },
+
+  transformIgnorePatterns: ["node_modules\\/axios/*"],
 
   // Runs special logic, such as cleaning up components
   // when using React Testing Library and adds special
@@ -21,4 +22,14 @@ module.exports = {
 
   // Module file extensions for importing
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  moduleNameMapper: {
+    "^axios$": require.resolve("axios"),
+  },
+  globals: {
+    "ts-jest": {
+      tsConfigFile: "tsconfig.json",
+    },
+    TextEncoder: require("util").TextEncoder,
+    TextDecoder: require("util").TextDecoder,
+  },
 };

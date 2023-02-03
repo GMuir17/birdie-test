@@ -51,7 +51,7 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
       </CardContent>
       <CardContent>
         {event_type === "task_completed" && (
-          <Typography paragraph>
+          <Typography paragraph data-testid="task_completed_card">
             {payload.task_definition_description}
           </Typography>
         )}

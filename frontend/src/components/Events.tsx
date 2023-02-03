@@ -26,8 +26,8 @@ const Events = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [startDate, setStartDate] = useState<string>(formatDate(defaultDay));
-  const [careGivers, setCareGivers] = useState<string>("");
-  const [eventTypes, setEventTypes] = useState<string>("");
+  const [careGivers, setCareGivers] = useState<string | null>(null);
+  const [eventTypes, setEventTypes] = useState<string | null>(null);
 
   const { data, isLoading } = useQuery(
     ["events", startDate, careGivers, eventTypes],

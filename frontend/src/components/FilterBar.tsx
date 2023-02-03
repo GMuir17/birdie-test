@@ -47,20 +47,21 @@ const FilterBar: FC<FilterBarProps> = ({ careGivers, eventTypes }) => {
       <Toolbar
         sx={{ height: "100%", display: "flex", justifyContent: "space-around" }}
       >
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <MobileDatePicker
-            label="Date"
-            inputFormat="ddd DD MMMM YYYY"
-            value={date}
-            onChange={handleChange}
-            renderInput={(params) => <TextField {...params} />}
-            open={datePickerOpen}
-            onOpen={() => setDatePickerOpen(true)}
-            minDate={dayjs(defaultDay)}
-            maxDate={dayjs(defaultDay).add(1, "week")}
-          />
-        </LocalizationProvider>
-
+        <div id="date-picker">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <MobileDatePicker
+              label="Date"
+              inputFormat="ddd DD MMMM YYYY"
+              value={date}
+              onChange={handleChange}
+              renderInput={(params) => <TextField {...params} />}
+              open={datePickerOpen}
+              onOpen={() => setDatePickerOpen(true)}
+              minDate={dayjs(defaultDay)}
+              maxDate={dayjs(defaultDay).add(1, "week")}
+            />
+          </LocalizationProvider>
+        </div>
         <Button
           variant="contained"
           size="large"
