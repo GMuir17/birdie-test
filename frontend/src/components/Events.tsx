@@ -64,6 +64,12 @@ const Events = () => {
   );
 
   useEffect(() => {
+    // Event Types
+    const paramEventTypes = searchParams.get("eventTypes");
+    if (paramEventTypes) {
+      setEventTypes(paramEventTypes);
+    } else setEventTypes(null);
+
     // Start Date
     const paramStartDate = searchParams.get("startDate");
     if (paramStartDate) {
@@ -79,13 +85,7 @@ const Events = () => {
     const paramCareGivers = searchParams.get("careGivers");
     if (paramCareGivers) {
       setCareGivers(paramCareGivers);
-    }
-
-    // Event Types
-    const paramEventTypes = searchParams.get("eventTypes");
-    if (paramEventTypes) {
-      setEventTypes(paramEventTypes);
-    }
+    } else setCareGivers(null);
   }, [searchParams, startDate, setSearchParams]);
 
   return (

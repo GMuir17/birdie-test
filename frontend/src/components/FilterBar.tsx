@@ -27,9 +27,9 @@ const FilterBar: FC<FilterBarProps> = ({ careGivers, eventTypes }) => {
     const newStartDate = formatDate(newValue);
     setDatePickerOpen(false);
     setSearchParams((oldParams) => {
-      oldParams.set("startDate", newStartDate);
       oldParams.delete("careGivers");
       oldParams.delete("eventTypes");
+      oldParams.set("startDate", newStartDate);
       return oldParams;
     });
   };
