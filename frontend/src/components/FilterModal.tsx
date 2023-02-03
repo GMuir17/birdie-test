@@ -105,11 +105,6 @@ const FilterModal: FC<FilterBarProps> = ({
     onClose();
   };
 
-  const clearAll = () => {
-    setSelectedCareGivers([]);
-    setSelectedEventTypes([]);
-  };
-
   return (
     <Dialog
       open={open}
@@ -138,9 +133,20 @@ const FilterModal: FC<FilterBarProps> = ({
             py: 2.5,
           }}
         >
-          <DialogContentText sx={{ fontSize: "20px" }}>
-            Care giver
-          </DialogContentText>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <DialogContentText sx={{ fontSize: "20px" }}>
+              Care giver
+            </DialogContentText>
+            <Button size="large" onClick={() => setSelectedCareGivers([])}>
+              Clear
+            </Button>
+          </Box>
           <FormControl>
             {careGivers?.length &&
               careGivers.map((careGiver: CareGiver) => (
@@ -171,9 +177,20 @@ const FilterModal: FC<FilterBarProps> = ({
             py: 2.5,
           }}
         >
-          <DialogContentText sx={{ fontSize: "20px" }}>
-            Events
-          </DialogContentText>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <DialogContentText sx={{ fontSize: "20px" }}>
+              Events
+            </DialogContentText>
+            <Button size="large" onClick={() => setSelectedEventTypes([])}>
+              Clear
+            </Button>
+          </Box>
           <FormControl>
             {eventTypes?.length &&
               eventTypes.map((eventType: string) => (
@@ -201,10 +218,7 @@ const FilterModal: FC<FilterBarProps> = ({
           </FormControl>
         </Box>
       </DialogContent>
-      <DialogActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button size="large" onClick={clearAll}>
-          Clear
-        </Button>
+      <DialogActions sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button size="large" onClick={applyFilters}>
           Apply filters
         </Button>

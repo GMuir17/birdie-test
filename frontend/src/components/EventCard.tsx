@@ -25,7 +25,12 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
   const { event_type, payload } = event;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{
+        backgroundColor:
+          event_type === "alert_raised" ? "rgba(240,128,128, 0.5)" : "white",
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: deepPurple[500] }}>

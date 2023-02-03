@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Container, CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress, Grid } from "@mui/material";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
@@ -105,14 +105,22 @@ const Events = () => {
           <CircularProgress />
         </Container>
       )}
-      <Container maxWidth="sm">
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          py: 2,
+          px: 2,
+          backgroundColor: "#d3d3d3",
+        }}
+      >
         {data &&
           data.events.map((event: any) => (
-            <Box sx={{ py: 1 }} key={event.id}>
+            <Grid item xs={12} sm={4} sx={{ py: 1 }} key={event.id}>
               <EventCard event={event} />
-            </Box>
+            </Grid>
           ))}
-      </Container>
+      </Grid>
     </Box>
   );
 };
