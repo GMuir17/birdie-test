@@ -13,6 +13,7 @@ import {
   Typography,
   Checkbox,
   Slide,
+  Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
@@ -29,15 +30,26 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const eventTypeToText = (eventType: string) => {
+  return eventType.split("_").join(" ");
+};
+
 interface FilterBarProps {
   careGivers: CareGiver[];
+  eventTypes: string[];
   open: boolean;
   onClose: () => void;
 }
 
-const FilterModal: FC<FilterBarProps> = ({ careGivers, open, onClose }) => {
+const FilterModal: FC<FilterBarProps> = ({
+  careGivers,
+  eventTypes,
+  open,
+  onClose,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCareGivers, setSelectedCareGivers] = useState<string[]>([]);
+  const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
 
   useEffect(() => {
     if (!careGivers) return;
@@ -45,9 +57,16 @@ const FilterModal: FC<FilterBarProps> = ({ careGivers, open, onClose }) => {
   }, [careGivers]);
 
   useEffect(() => {
+    if (!eventTypes) return;
+    setSelectedEventTypes(eventTypes);
+  }, [eventTypes]);
+
+  useEffect(() => {
     if (!searchParams) return;
     const paramCareGivers = searchParams.get("careGivers");
     if (paramCareGivers) setSelectedCareGivers(paramCareGivers.split(","));
+    const paramEventTypes = searchParams.get("eventTypes");
+    if (paramEventTypes) setSelectedEventTypes(paramEventTypes.split(","));
   }, [searchParams]);
 
   const handleCareGiverChange = (
@@ -61,26 +80,34 @@ const FilterModal: FC<FilterBarProps> = ({ careGivers, open, onClose }) => {
         );
   };
 
+  const handleEventTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, checked } = event.target as HTMLInputElement;
+    checked
+      ? setSelectedEventTypes([...selectedEventTypes, name])
+      : setSelectedEventTypes(
+          selectedEventTypes.filter((eventType) => eventType !== name)
+        );
+  };
+
   const applyFilters = () => {
     const carersCSV = selectedCareGivers.join(",");
     setSearchParams((oldParams) => {
       !selectedCareGivers.length
         ? oldParams.delete("careGivers")
         : oldParams.set("careGivers", carersCSV);
+      !selectedEventTypes.length
+        ? oldParams.delete("eventTypes")
+        : oldParams.set("eventTypes", selectedEventTypes.join(","));
       return oldParams;
     });
     onClose();
   };
 
-  const selectAll = () => {
-    setSearchParams((oldParams) => {
-      oldParams.set(
-        "careGivers",
-        careGivers.map((careGiver) => careGiver.id).join(",")
-      );
-      return oldParams;
-    });
-    onClose();
+  const clearAll = () => {
+    setSelectedCareGivers([]);
+    setSelectedEventTypes([]);
   };
 
   return (
@@ -89,6 +116,8 @@ const FilterModal: FC<FilterBarProps> = ({ careGivers, open, onClose }) => {
       TransitionComponent={Transition}
       keepMounted
       onClose={onClose}
+      scroll="paper"
+      fullWidth
     >
       <AppBar sx={{ position: "sticky" }}>
         <Toolbar>
@@ -134,10 +163,47 @@ const FilterModal: FC<FilterBarProps> = ({ careGivers, open, onClose }) => {
               ))}
           </FormControl>
         </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            px: 3,
+            py: 2.5,
+          }}
+        >
+          <DialogContentText sx={{ fontSize: "20px" }}>
+            Events
+          </DialogContentText>
+          <FormControl>
+            {eventTypes?.length &&
+              eventTypes.map((eventType: string) => (
+                <div key={eventType}>
+                  <Box
+                    key={eventType}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography sx={{ textTransform: "capitalize" }}>
+                      {eventTypeToText(eventType)}
+                    </Typography>
+                    <Checkbox
+                      checked={selectedEventTypes.includes(eventType)}
+                      onChange={handleEventTypeChange}
+                      name={eventType}
+                    />
+                  </Box>
+                  <Divider orientation="horizontal" />
+                </div>
+              ))}
+          </FormControl>
+        </Box>
       </DialogContent>
       <DialogActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button size="large" onClick={selectAll}>
-          Select all
+        <Button size="large" onClick={clearAll}>
+          Clear
         </Button>
         <Button size="large" onClick={applyFilters}>
           Apply filters

@@ -13,9 +13,10 @@ import { CareGiver } from "./../types";
 
 interface FilterBarProps {
   careGivers: CareGiver[];
+  eventTypes: string[];
 }
 
-const FilterBar: FC<FilterBarProps> = ({ careGivers }) => {
+const FilterBar: FC<FilterBarProps> = ({ careGivers, eventTypes }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [date, setDate] = useState<Dayjs | null>(dayjs(defaultDay));
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false);
@@ -28,6 +29,7 @@ const FilterBar: FC<FilterBarProps> = ({ careGivers }) => {
     setSearchParams((oldParams) => {
       oldParams.set("startDate", newStartDate);
       oldParams.delete("careGivers");
+      oldParams.delete("eventTypes");
       return oldParams;
     });
   };
@@ -70,6 +72,7 @@ const FilterBar: FC<FilterBarProps> = ({ careGivers }) => {
       </Toolbar>
       <FilterModal
         careGivers={careGivers}
+        eventTypes={eventTypes}
         open={filterModalOpen}
         onClose={() => setFilterModalOpen(false)}
       />

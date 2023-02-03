@@ -222,35 +222,3 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
 };
 
 export default EventCard;
-
-// const fluid_intake_observation =
-//   '"fluid": "caffeinated", "observed": false, "consumed_volume_ml": 230}';
-// const physical_health_observation = '"note": "[redacted] is well.';
-// const visit_completed = "";
-// const task_completed = "";
-// const check_out = "";
-// const mood_observation = '"mood": "okay"';
-// const regular_medication_taken = '"medication_type": "SCHEDULED"';
-// const alert_raised = "";
-// const no_medication_observation_received =
-//   '"medication_type": "SCHEDULED","expected_dose_timestamp": "2019-04-28T07:00:00.000Z" ';
-// const incontinence_pad_observation = "note, pad_condition";
-// const check_in = "";
-// const general_observation = "note";
-// const regular_medication_not_taken =
-//   "medication_type, note, medication_failure_reason";
-// const food_intake_observation = "meal, note";
-// const task_completion_reverted =
-//   "task_schedule_note, task_definition_description";
-// const mental_health_observation = "note";
-// const medication_schedule_updated = "type, note, dose_size, rrule";
-// const visit_cancelled = "";
-// const regular_medication_maybe_taken = "note, medication_failure_reason";
-// const medication_schedule_created = "note, type, rrule, dose_size,";
-// const alert_qualified = "alert_severity";
-// const task_schedule_created = "note, rrule";
-// const concern_raised = "note, severity, ";
-// const regular_medication_partially_taken =
-//   "note, medication_type, medication_failure_reason";
-// const catheter_observation = "note, volume_ml";
-// const toilet_visit_recorded = "note, observed, visit_type, visit_count";

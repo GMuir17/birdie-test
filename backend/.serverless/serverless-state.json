@@ -111,6 +111,12 @@
               "LogGroupName": "/aws/lambda/birdie-backend-production-careGivers"
             }
           },
+          "EventTypesLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/birdie-backend-production-eventTypes"
+            }
+          },
           "IamRoleLambdaExecution": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -195,7 +201,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/birdie-backend/production/1675378320777-2023-02-02T22:52:00.777Z/events.zip"
+                "S3Key": "serverless/birdie-backend/production/1675384451222-2023-02-03T00:34:11.222Z/events.zip"
               },
               "Handler": "src/functions/events/handler.main",
               "Runtime": "nodejs14.x",
@@ -229,7 +235,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/birdie-backend/production/1675378320777-2023-02-02T22:52:00.777Z/careGivers.zip"
+                "S3Key": "serverless/birdie-backend/production/1675384451222-2023-02-03T00:34:11.222Z/careGivers.zip"
               },
               "Handler": "src/functions/careGivers/handler.main",
               "Runtime": "nodejs14.x",
@@ -256,35 +262,48 @@
               "CareGiversLogGroup"
             ]
           },
-          "CareGiversLambdaVersionawUvRG7QiJLTtngcivBbpv9i8SxcayqW4Ke5r1Xlw": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
+          "EventTypesLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
             "Properties": {
-              "FunctionName": {
-                "Ref": "CareGiversLambdaFunction"
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/birdie-backend/production/1675384451222-2023-02-03T00:34:11.222Z/eventTypes.zip"
               },
-              "CodeSha256": "7EuGk537f+ES8V7Qv+HuyNaUObINSFfzhLURj2wdkg0="
-            }
-          },
-          "CareGiversLambdaEvConf": {
-            "Type": "AWS::Lambda::EventInvokeConfig",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "CareGiversLambdaFunction"
+              "Handler": "src/functions/eventTypes/handler.main",
+              "Runtime": "nodejs14.x",
+              "FunctionName": "birdie-backend-production-eventTypes",
+              "MemorySize": 1024,
+              "Timeout": 180,
+              "Environment": {
+                "Variables": {
+                  "DB_USER": "birdie",
+                  "DB_PASSWORD": "7VsGDAXfpEH7Bee",
+                  "DB_HOST": "birdie-test.cyosireearno.eu-west-2.rds.amazonaws.com",
+                  "DB_PORT": "3306",
+                  "DB_NAME": "birdietest"
+                }
               },
-              "DestinationConfig": {},
-              "Qualifier": "$LATEST",
-              "MaximumRetryAttempts": 1
-            }
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "EventTypesLogGroup"
+            ]
           },
-          "EventsLambdaVersionJrxh9Rp0UPnqtvExEZ8isE954QE3mIxFfJsACjPM7A": {
+          "EventsLambdaVersionOt4baAsG8d38sXJUmhIpdCICnRwCt725BU94Jlez4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsLambdaFunction"
               },
-              "CodeSha256": "Eun6E0+lOJakTlRJkeMJ4ihxCECZee3bigcjl8A3kB0="
+              "CodeSha256": "ayFnfyA+/rRFGbMpDI93mZHkhf7o8W6G0CcZWFwoXHY="
             }
           },
           "EventsLambdaEvConf": {
@@ -292,6 +311,48 @@
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsLambdaFunction"
+              },
+              "DestinationConfig": {},
+              "Qualifier": "$LATEST",
+              "MaximumRetryAttempts": 1
+            }
+          },
+          "EventTypesLambdaVersionKzQPcPlV6alCNlOmHqhdBqCdXxQ1FqPBGnuTwUitk": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "EventTypesLambdaFunction"
+              },
+              "CodeSha256": "p6hBuJERqfErw7ZuP/ury7eO1LDkxP+MsoOoromURtw="
+            }
+          },
+          "EventTypesLambdaEvConf": {
+            "Type": "AWS::Lambda::EventInvokeConfig",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "EventTypesLambdaFunction"
+              },
+              "DestinationConfig": {},
+              "Qualifier": "$LATEST",
+              "MaximumRetryAttempts": 1
+            }
+          },
+          "CareGiversLambdaVersionjH74NQnNONlQjWEd5VyvdfZmok3l3pBEt2WKEb4r4U": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "CareGiversLambdaFunction"
+              },
+              "CodeSha256": "np58sPaTHZWuqCAuPvBKq++6soTfv+H2MqdnhvS8abI="
+            }
+          },
+          "CareGiversLambdaEvConf": {
+            "Type": "AWS::Lambda::EventInvokeConfig",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "CareGiversLambdaFunction"
               },
               "DestinationConfig": {},
               "Qualifier": "$LATEST",
@@ -336,6 +397,21 @@
                 ]
               },
               "PathPart": "careGivers",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceEventtypes": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "eventTypes",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -425,6 +501,51 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceCaregivers"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodEventtypesOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceEventtypes"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -523,7 +644,53 @@
               "CareGiversLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1675378320128": {
+          "ApiGatewayMethodEventtypesGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceEventtypes"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": true,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "EventTypesLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "EventTypesLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1675384450526": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -534,8 +701,10 @@
             "DependsOn": [
               "ApiGatewayMethodEventsOptions",
               "ApiGatewayMethodCaregiversOptions",
+              "ApiGatewayMethodEventtypesOptions",
               "ApiGatewayMethodEventsGet",
-              "ApiGatewayMethodCaregiversGet"
+              "ApiGatewayMethodCaregiversGet",
+              "ApiGatewayMethodEventtypesGet"
             ]
           },
           "ApiGatewayApiKey1": {
@@ -552,11 +721,11 @@
                 }
               ]
             },
-            "DependsOn": "ApiGatewayDeployment1675378320128"
+            "DependsOn": "ApiGatewayDeployment1675384450526"
           },
           "ApiGatewayUsagePlan": {
             "Type": "AWS::ApiGateway::UsagePlan",
-            "DependsOn": "ApiGatewayDeployment1675378320128",
+            "DependsOn": "ApiGatewayDeployment1675384450526",
             "Properties": {
               "ApiStages": [
                 {
@@ -655,6 +824,43 @@
                 ]
               }
             }
+          },
+          "EventTypesLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "EventTypesLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
           }
         },
         "Outputs": {
@@ -666,22 +872,31 @@
               "Name": "sls-birdie-backend-production-ServerlessDeploymentBucketName"
             }
           },
-          "CareGiversLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "CareGiversLambdaVersionawUvRG7QiJLTtngcivBbpv9i8SxcayqW4Ke5r1Xlw"
-            },
-            "Export": {
-              "Name": "sls-birdie-backend-production-CareGiversLambdaFunctionQualifiedArn"
-            }
-          },
           "EventsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsLambdaVersionJrxh9Rp0UPnqtvExEZ8isE954QE3mIxFfJsACjPM7A"
+              "Ref": "EventsLambdaVersionOt4baAsG8d38sXJUmhIpdCICnRwCt725BU94Jlez4"
             },
             "Export": {
               "Name": "sls-birdie-backend-production-EventsLambdaFunctionQualifiedArn"
+            }
+          },
+          "EventTypesLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "EventTypesLambdaVersionKzQPcPlV6alCNlOmHqhdBqCdXxQ1FqPBGnuTwUitk"
+            },
+            "Export": {
+              "Name": "sls-birdie-backend-production-EventTypesLambdaFunctionQualifiedArn"
+            }
+          },
+          "CareGiversLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "CareGiversLambdaVersionjH74NQnNONlQjWEd5VyvdfZmok3l3pBEt2WKEb4r4U"
+            },
+            "Export": {
+              "Name": "sls-birdie-backend-production-CareGiversLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -853,7 +1068,7 @@
         "timeout": 180,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "EventsLambdaVersionJrxh9Rp0UPnqtvExEZ8isE954QE3mIxFfJsACjPM7A"
+        "versionLogicalId": "EventsLambdaVersionOt4baAsG8d38sXJUmhIpdCICnRwCt725BU94Jlez4"
       },
       "careGivers": {
         "handler": "src/functions/careGivers/handler.main",
@@ -893,7 +1108,47 @@
         "timeout": 180,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "CareGiversLambdaVersionawUvRG7QiJLTtngcivBbpv9i8SxcayqW4Ke5r1Xlw"
+        "versionLogicalId": "CareGiversLambdaVersionjH74NQnNONlQjWEd5VyvdfZmok3l3pBEt2WKEb4r4U"
+      },
+      "eventTypes": {
+        "handler": "src/functions/eventTypes/handler.main",
+        "events": [
+          {
+            "http": {
+              "method": "get",
+              "path": "eventTypes",
+              "private": true,
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent",
+                  "X-Amzn-Trace-Id"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "maximumRetryAttempts": 1,
+        "name": "birdie-backend-production-eventTypes",
+        "package": {
+          "artifact": ".serverless/eventTypes.zip"
+        },
+        "memory": 1024,
+        "timeout": 180,
+        "runtime": "nodejs14.x",
+        "vpc": {},
+        "versionLogicalId": "EventTypesLambdaVersionKzQPcPlV6alCNlOmHqhdBqCdXxQ1FqPBGnuTwUitk"
       }
     },
     "configValidationMode": "warn",
@@ -923,7 +1178,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/birdie-backend/production/1675378320777-2023-02-02T22:52:00.777Z",
+    "artifactDirectoryName": "serverless/birdie-backend/production/1675384451222-2023-02-03T00:34:11.222Z",
     "artifact": ""
   }
 }

@@ -27,13 +27,17 @@ const Events = () => {
 
   const [startDate, setStartDate] = useState<string>(formatDate(defaultDay));
   const [careGivers, setCareGivers] = useState<string>("");
+  const [eventTypes, setEventTypes] = useState<string>("");
 
   const { data, isLoading } = useQuery(
-    ["events", startDate, careGivers],
+    ["events", startDate, careGivers, eventTypes],
     async () => {
       let completeUrl = `${url}events?startDate=${startDate}`;
       if (careGivers) {
         completeUrl += `&careGivers=${careGivers}`;
+      }
+      if (eventTypes) {
+        completeUrl += `&eventTypes=${eventTypes}`;
       }
       const res = await axios.get(completeUrl, config);
       return res.data.body;
@@ -50,7 +54,17 @@ const Events = () => {
     }
   );
 
+  const { data: evenTypeData } = useQuery(
+    ["evenTypes", startDate],
+    async () => {
+      let completeUrl = `${url}eventTypes?startDate=${startDate}`;
+      const res = await axios.get(completeUrl, config);
+      return res.data.body;
+    }
+  );
+
   useEffect(() => {
+    // Start Date
     const paramStartDate = searchParams.get("startDate");
     if (paramStartDate) {
       setStartDate(paramStartDate);
@@ -60,15 +74,26 @@ const Events = () => {
         return oldParams;
       });
     }
+
+    // Care Givers
     const paramCareGivers = searchParams.get("careGivers");
     if (paramCareGivers) {
       setCareGivers(paramCareGivers);
+    }
+
+    // Event Types
+    const paramEventTypes = searchParams.get("eventTypes");
+    if (paramEventTypes) {
+      setEventTypes(paramEventTypes);
     }
   }, [searchParams, startDate, setSearchParams]);
 
   return (
     <Box>
-      <FilterBar careGivers={careGiverData?.careGivers} />
+      <FilterBar
+        careGivers={careGiverData?.careGivers}
+        eventTypes={evenTypeData?.eventTypes}
+      />
       {isLoading && (
         <Container
           sx={{

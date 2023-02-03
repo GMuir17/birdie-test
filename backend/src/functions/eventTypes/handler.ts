@@ -15,26 +15,21 @@ export const main: APIGatewayProxyHandler = async (event) => {
   try {
     const connection = await getConnection();
     const [rows] = await connection.execute(
-      `  select 
-          distinct(events.caregiver_id), 
-          tcg.first_name caregiver_first_name
+      `select 
+          distinct(event_type)
         from events 
-        inner join test_caregivers tcg on events.caregiver_id = tcg.id
-        where events.care_recipient_id = ?
-        and events.timestamp between ? and ?
+        where care_recipient_id = ?
+        and timestamp between ? and ?
         order by timestamp asc;`,
       ["df50cac5-293c-490d-a06c-ee26796f850d", startDate, endDate]
     );
 
-    const careGivers = rows.map((row: any) => {
-      return { name: row.caregiver_first_name, id: row.caregiver_id };
-    });
-
     await connection.end();
+    const eventTypes = rows.map((row: any) => row.event_type);
 
     return corsSuccessResponse({
       statusCode: 200,
-      body: { careGivers },
+      body: { eventTypes },
     });
   } catch (e) {
     return corsErrorResponse(e, 400);
