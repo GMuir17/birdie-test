@@ -83,7 +83,7 @@ const Events = () => {
       <Container maxWidth="sm">
         {data &&
           data.events.map((event: any) => (
-            <Box sx={{ py: 2 }} key={event.id}>
+            <Box sx={{ py: 1 }} key={event.id}>
               <EventCard event={event} />
             </Box>
           ))}

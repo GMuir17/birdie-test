@@ -47,7 +47,7 @@ const FilterBar: FC<FilterBarProps> = ({ careGivers }) => {
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileDatePicker
-            label="Visit Date"
+            label="Date"
             inputFormat="ddd DD MMMM YYYY"
             value={date}
             onChange={handleChange}
