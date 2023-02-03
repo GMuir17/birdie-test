@@ -116,7 +116,7 @@ const Events = () => {
       >
         {data &&
           data.events.map((event: any) => (
-            <Grid item xs={12} sm={4} sx={{ py: 1 }} key={event.id}>
+            <Grid item xs={12} sm={12} sx={{ py: 1 }} key={event.id}>
               <EventCard event={event} />
             </Grid>
           ))}

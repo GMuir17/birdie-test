@@ -13,7 +13,7 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Box>
+            <Box sx={{ backgroundColor: "#d3d3d3", height: "100vh" }}>
               <Events />
             </Box>
           }

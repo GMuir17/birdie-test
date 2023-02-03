@@ -173,7 +173,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/birdie-backend/production/1675412151956-2023-02-03T08:15:51.956Z/events.zip"
+          "S3Key": "serverless/birdie-backend/production/1675420120034-2023-02-03T10:28:40.034Z/events.zip"
         },
         "Handler": "src/functions/events/handler.main",
         "Runtime": "nodejs14.x",
@@ -207,7 +207,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/birdie-backend/production/1675412151956-2023-02-03T08:15:51.956Z/careGivers.zip"
+          "S3Key": "serverless/birdie-backend/production/1675420120034-2023-02-03T10:28:40.034Z/careGivers.zip"
         },
         "Handler": "src/functions/careGivers/handler.main",
         "Runtime": "nodejs14.x",
@@ -241,7 +241,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/birdie-backend/production/1675412151956-2023-02-03T08:15:51.956Z/eventTypes.zip"
+          "S3Key": "serverless/birdie-backend/production/1675420120034-2023-02-03T10:28:40.034Z/eventTypes.zip"
         },
         "Handler": "src/functions/eventTypes/handler.main",
         "Runtime": "nodejs14.x",
@@ -267,27 +267,6 @@
       "DependsOn": [
         "EventTypesLogGroup"
       ]
-    },
-    "CareGiversLambdaVersionjH74NQnNONlQjWEd5VyvdfZmok3l3pBEt2WKEb4r4U": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "CareGiversLambdaFunction"
-        },
-        "CodeSha256": "np58sPaTHZWuqCAuPvBKq++6soTfv+H2MqdnhvS8abI="
-      }
-    },
-    "CareGiversLambdaEvConf": {
-      "Type": "AWS::Lambda::EventInvokeConfig",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "CareGiversLambdaFunction"
-        },
-        "DestinationConfig": {},
-        "Qualifier": "$LATEST",
-        "MaximumRetryAttempts": 1
-      }
     },
     "EventsLambdaVersion2T9B29Bw6mYdQCvKNDulzBFY5jng3wYkRjan5JflBY": {
       "Type": "AWS::Lambda::Version",
@@ -325,6 +304,27 @@
       "Properties": {
         "FunctionName": {
           "Ref": "EventTypesLambdaFunction"
+        },
+        "DestinationConfig": {},
+        "Qualifier": "$LATEST",
+        "MaximumRetryAttempts": 1
+      }
+    },
+    "CareGiversLambdaVersionjH74NQnNONlQjWEd5VyvdfZmok3l3pBEt2WKEb4r4U": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CareGiversLambdaFunction"
+        },
+        "CodeSha256": "np58sPaTHZWuqCAuPvBKq++6soTfv+H2MqdnhvS8abI="
+      }
+    },
+    "CareGiversLambdaEvConf": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CareGiversLambdaFunction"
         },
         "DestinationConfig": {},
         "Qualifier": "$LATEST",
@@ -662,7 +662,7 @@
         "EventTypesLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1675412151260": {
+    "ApiGatewayDeployment1675420119459": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -693,11 +693,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1675412151260"
+      "DependsOn": "ApiGatewayDeployment1675420119459"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1675412151260",
+      "DependsOn": "ApiGatewayDeployment1675420119459",
       "Properties": {
         "ApiStages": [
           {
@@ -844,15 +844,6 @@
         "Name": "sls-birdie-backend-production-ServerlessDeploymentBucketName"
       }
     },
-    "CareGiversLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "CareGiversLambdaVersionjH74NQnNONlQjWEd5VyvdfZmok3l3pBEt2WKEb4r4U"
-      },
-      "Export": {
-        "Name": "sls-birdie-backend-production-CareGiversLambdaFunctionQualifiedArn"
-      }
-    },
     "EventsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
@@ -869,6 +860,15 @@
       },
       "Export": {
         "Name": "sls-birdie-backend-production-EventTypesLambdaFunctionQualifiedArn"
+      }
+    },
+    "CareGiversLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "CareGiversLambdaVersionjH74NQnNONlQjWEd5VyvdfZmok3l3pBEt2WKEb4r4U"
+      },
+      "Export": {
+        "Name": "sls-birdie-backend-production-CareGiversLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
